@@ -1,0 +1,28 @@
+name: Publish project to Maven repository
+
+# OR, publish per each commit
+on:
+  push:
+    branches: [ main ]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: s4u/maven-settings-action@v2.6.0
+        with:
+          servers: |
+            [{
+              "id": "reposilite-repository",
+              "username": "root",
+              "password": "WT6V69oVnPHOcTfX8WPg5wGniQpxHYOGg9rttFb/7DYVahBL/XZWDjqJ5rCJQSDI"
+            }]
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 18
+      - name: Publish with Gradle
+        run: ./mvn deploy
+        env:
+          MAVEN_NAME: root # token name
+          MAVEN_SECRET: WT6V69oVnPHOcTfX8WPg5wGniQpxHYOGg9rttFb/7DYVahBL/XZWDjqJ5rCJQSDI
