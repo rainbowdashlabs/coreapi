@@ -3,6 +3,8 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("java")
     id("com.gradleup.shadow") version "8.3.5"
+
+    `maven-publish`
 }
 
 group = "de.sakuramc"
@@ -33,4 +35,25 @@ dependencies {
 tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set("")
     mergeServiceFiles()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "myDomainRepository"
+            url = uri("https://dev.sakuramc.de/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "de.sakuramc"
+            artifactId = "sakuraapi"
+            version = "1.0.0"
+            from(components["java"])
+        }
+    }
 }
