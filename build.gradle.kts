@@ -42,10 +42,6 @@ publishing {
         maven {
             name = "myDomainRepository"
             url = uri("https://dev.sakuramc.de/releases")
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
             credentials {
                 username = "root"
                 password = "WT6V69oVnPHOcTfX8WPg5wGniQpxHYOGg9rttFb/7DYVahBL/XZWDjqJ5rCJQSDI"
