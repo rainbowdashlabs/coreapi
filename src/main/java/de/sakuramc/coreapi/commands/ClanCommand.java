@@ -75,6 +75,7 @@ public class ClanCommand implements CommandExecutor {
                             }
 
                             Clan clan = new Clan();
+
                             clan.setName(name);
                             clan.setTag(tag);
                             clan.setCreationDate(new Timestamp(System.currentTimeMillis()));
