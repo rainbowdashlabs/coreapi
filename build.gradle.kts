@@ -24,12 +24,16 @@ repositories {
 }
 
 dependencies {
-    implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("com.google.code.gson:gson:2.11.0")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
+    implementation("org.jetbrains:annotations:26.0.1")
+    implementation("de.chojo.sadu", "sadu-mysql", "2.3.1")
+    implementation("de.chojo.sadu", "sadu-datasource", "2.3.1")
+    implementation("de.chojo.sadu", "sadu-queries", "2.3.1")
 
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
-    compileOnly("net.luckperms:api:5.4")
-    compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
 tasks.named<ShadowJar>("shadowJar") {
