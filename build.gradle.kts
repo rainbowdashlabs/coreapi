@@ -30,7 +30,10 @@ dependencies {
     implementation("de.chojo.sadu", "sadu-mysql", "2.3.1")
     implementation("de.chojo.sadu", "sadu-datasource", "2.3.1")
     implementation("de.chojo.sadu", "sadu-queries", "2.3.1")
-
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.google.code.gson:gson:2.11.0")
+    compileOnly("net.luckperms:api:5.4")
+    compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
     compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
