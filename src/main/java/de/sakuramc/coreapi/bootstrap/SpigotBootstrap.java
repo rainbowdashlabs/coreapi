@@ -1,5 +1,7 @@
 package de.sakuramc.coreapi.bootstrap;
 
+import de.sakuramc.coreapi.CoreAPI;
+import de.sakuramc.coreapi.commands.ChangeLanguageCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -12,5 +14,9 @@ public class SpigotBootstrap extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("SakuraMC CoreAPI is now enabled!");
+
+        new CoreAPI();
+
+        getCommand("language").setExecutor(new ChangeLanguageCommand());
     }
 }

@@ -1,97 +1,41 @@
 package de.sakuramc.coreapi;
 
-import de.sakuramc.coreapi.commands.*;
-import de.sakuramc.coreapi.listener.*;
-import de.sakuramc.coreapi.manager.*;
-import de.sakuramc.coreapi.mysql.MySQLManager;
-import de.sakuramc.coreapi.scoreboard.ScoreboardManager;
-import de.sakuramc.coreapi.utils.FriendGUI;
-import de.sakuramc.coreapi.utils.UUIDFetcher;
-import org.bukkit.plugin.java.JavaPlugin;
+import com.zaxxer.hikari.HikariDataSource;
+import de.chojo.sadu.datasource.DataSourceCreator;
+import de.chojo.sadu.mysql.databases.MySql;
+import de.sakuramc.coreapi.language.LanguageAPI;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
-public class CoreAPI extends JavaPlugin {
-
-    public final String prefix = "§8┃ §d§lSakuraMC §8»§7 ";
-    public final String noPerm = prefix + "Du hast dafür §4keine §7Rechte!";
-    public final String noPlayer = prefix + "Du musst ein Spieler sein!";
-    public final String onUse = prefix + "§cVerwende: §7/";
-
+@Getter
+@Accessors(fluent = true)
+public class CoreAPI  {
+    @Getter
+    @Accessors(fluent = true)
     private static CoreAPI instance;
 
-    public MySQLManager mySQLManager;
-    public TeamManager teamManager;
-    public PlayerManager playerManager;
-    public ScoreboardManager scoreboardManager;
-    public ServerManager serverManager;
-    public ClanManager clanManager;
-    public LanguageManager languageManager;
-    public UUIDFetcher uuidFetcher;
-    public FriendGUI friendGUI;
+    private final HikariDataSource dataSource;
+    private final LanguageAPI languageAPI;
 
-    public static final String LANG_CHANNEL_ID = "sakuramc:lang";
-
-    @Override
-    public void onEnable() {
+    public CoreAPI() {
         instance = this;
 
-        this.getServer().getMessenger().registerIncomingPluginChannel(this, LANG_CHANNEL_ID, new PluginMessageListenerImpl());
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, LANG_CHANNEL_ID);
+        this.dataSource = DataSourceCreator.create(MySql.get())
+                .configure(config -> config.host("localhost")
+                        .port(3306)
+                        .user("root")
+                        .password("")
+                        .database("system")
+                )
+                .create()
+                .withMaximumPoolSize(3)
+                .withMinimumIdle(1)
+                .build();
 
-        saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
+        this.languageAPI = new LanguageAPI(dataSource);
 
-        this.mySQLManager = new MySQLManager(
-                this.getConfig().getString("mysql.hostname"),
-                this.getConfig().getInt("mysql.port"),
-                this.getConfig().getString("mysql.database"),
-                this.getConfig().getString("mysql.username"),
-                this.getConfig().getString("mysql.password")
-        );
-        this.mySQLManager.connect();
+        final var welcomeMessage = this.languageAPI().translate("de_DE", "welcome_message");
 
-        this.uuidFetcher = new UUIDFetcher(mySQLManager);
-        this.teamManager = new TeamManager(mySQLManager);
-        this.playerManager = new PlayerManager(mySQLManager);
-        this.clanManager = new ClanManager(mySQLManager);
-        this.languageManager = new LanguageManager(this, playerManager);
-
-        this.friendGUI = new FriendGUI(this);
-        //this.scoreboardManager = new ScoreboardManager(this);
-
-        this.serverManager = new ServerManager();
-
-        loadCommands();
-        loadListener();
-
-        instance.getServer().getConsoleSender().sendMessage(prefix + "Die CoreAPI wurde §aerfolgreich §7aktiviert.");
+        System.out.println(welcomeMessage);
     }
-
-    @Override
-    public void onDisable() {
-        mySQLManager.disconnect();
-
-        instance.getServer().getConsoleSender().sendMessage(prefix + "Die CoreAPI wurde §aerfolgreich §7deaktiviert!");
-    }
-
-    private void loadCommands() {
-        new GameModeCommand(this);
-        new FlyCommand(this);
-        new FriendCommand(this);
-        new ClanCommand(this);
-        new CommandNotFoundListener(this);
-        new LanguageListener(this);
-    }
-
-    private void loadListener() {
-        new PlayerJoinListener(this);
-        new PlayerQuitListener(this);
-        new FlyListener(this);
-        new ClanCommand(this);
-        new LanguageCommand(this);
-    }
-
-    public static CoreAPI getInstance() {
-        return instance;
-    }
-
 }
