@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "8.3.5"
+    id("com.gradleup.shadow") version "8.3.5" apply false
 
     `maven-publish`
 }
@@ -18,33 +18,43 @@ java {
 
 repositories {
     mavenCentral()
+
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.simplecloud.app/releases")
     maven("https://repo.dmulloy2.net/repository/public/")
 }
 
+allprojects {
+    apply(plugin = "java")
+    apply(plugin = "com.gradleup.shadow")
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly("org.projectlombok:lombok:1.18.36")
+        annotationProcessor("org.projectlombok:lombok:1.18.36")
+        implementation("org.jetbrains:annotations:26.0.1")
+
+    }
+
+    tasks.named<ShadowJar>("shadowJar") {
+        archiveClassifier.set("")
+        mergeServiceFiles()
+        relocate("com.zaxxer.hikari", "de.sakuramc.shadow.hikari")
+        //relocate("net.kyori", "de.sakuramc.shadow.kyori")
+    }
+}
+
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.36")
-    annotationProcessor("org.projectlombok:lombok:1.18.36")
-    implementation("org.jetbrains:annotations:26.0.1")
-    implementation("de.chojo.sadu", "sadu-mysql", "2.3.1")
-    implementation("de.chojo.sadu", "sadu-datasource", "2.3.1")
-    implementation("de.chojo.sadu", "sadu-queries", "2.3.1")
-    implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("com.google.code.gson:gson:2.11.0")
-    compileOnly("net.luckperms:api:5.4")
-    compileOnly("com.comphenix.protocol:ProtocolLib:4.8.0")
-    compileOnly("io.papermc.paper:paper-api:1.21.3-R0.1-SNAPSHOT")
-    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
-    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+
+    implementation("org.postgresql:postgresql:42.1.4")
+
 }
 
-tasks.named<ShadowJar>("shadowJar") {
-    archiveClassifier.set("")
-    mergeServiceFiles()
-}
 
-publishing {
+/*publishing {
     repositories {
         maven {
             name = "myDomainRepository"
@@ -63,4 +73,4 @@ publishing {
             from(components["java"])
         }
     }
-}
+}*/
