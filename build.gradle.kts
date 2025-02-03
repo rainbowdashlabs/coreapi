@@ -38,13 +38,6 @@ allprojects {
         implementation("org.jetbrains:annotations:26.0.1")
 
     }
-
-    tasks.named<ShadowJar>("shadowJar") {
-        archiveClassifier.set("")
-        mergeServiceFiles()
-        relocate("com.zaxxer.hikari", "de.sakuramc.shadow.hikari")
-        //relocate("net.kyori", "de.sakuramc.shadow.kyori")
-    }
 }
 
 dependencies {
@@ -52,25 +45,3 @@ dependencies {
     implementation("org.postgresql:postgresql:42.1.4")
 
 }
-
-
-/*publishing {
-    repositories {
-        maven {
-            name = "myDomainRepository"
-            url = uri("https://dev.sakuramc.de/releases")
-            credentials {
-                username = "root"
-                password = "WT6V69oVnPHOcTfX8WPg5wGniQpxHYOGg9rttFb/7DYVahBL/XZWDjqJ5rCJQSDI"
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "de.sakuramc"
-            artifactId = "sakuraapi"
-            version = "1.0.0"
-            from(components["java"])
-        }
-    }
-}*/

@@ -17,6 +17,10 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.5")
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
 tasks.test {
     useJUnitPlatform()
 }

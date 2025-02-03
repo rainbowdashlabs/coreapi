@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java")
     id("maven-publish")
@@ -18,7 +20,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    implementation(project(":api"))
+    compileOnly(project(":api"))
 }
 
 tasks.test {
@@ -27,7 +29,8 @@ tasks.test {
 
 bukkit {
     name = "paper-coreapi"
-    main = "de.sakuramc.paper.coreapi.CorePaperService"
+    main = "de.sakuramc.coreapi.paper.CorePaperService"
+    apiVersion = "1.13"
 
     commands {
         register("language") {
@@ -36,13 +39,38 @@ bukkit {
     }
 }
 
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+tasks.withType<Jar> {
+    from(project(":api").sourceSets["main"].output)
+}
+
+
+tasks.named<ShadowJar>("shadowJar") {
+    archiveClassifier.set("")
+    mergeServiceFiles()
+}
+
 publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
+    repositories {
+        maven {
+            name = "sakuraRepository"
+            url = uri("https://dev.sakuramc.de/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
         }
     }
-    repositories {
-        mavenLocal()
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "de.sakuramc.coreapi"
+            artifactId = "paper"
+            version = "1.0.0"
+            from(components["java"])
+        }
     }
 }
