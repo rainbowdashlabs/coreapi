@@ -37,6 +37,10 @@ allprojects {
         annotationProcessor("org.projectlombok:lombok:1.18.36")
         implementation("org.jetbrains:annotations:26.0.1")
 
+        implementation("de.chojo.sadu", "sadu-postgresql", "2.3.1")
+        implementation("de.chojo.sadu", "sadu-datasource", "2.3.1")
+        implementation("de.chojo.sadu", "sadu-queries", "2.3.1")
+        implementation("org.postgresql:postgresql:42.7.5")
     }
 }
 
