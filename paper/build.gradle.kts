@@ -4,6 +4,7 @@ plugins {
     id("java")
     id("maven-publish")
     id("de.eldoria.plugin-yml.bukkit") version "0.6.0"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "de.sakuramc"
@@ -20,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    shadow(project(":api"))
+    implementation(project(":api"))
 }
 
 tasks.test {
@@ -30,7 +31,7 @@ tasks.test {
 bukkit {
     name = "paper-coreapi"
     main = "de.sakuramc.coreapi.paper.CorePaperService"
-    apiVersion = "1.13"
+    apiVersion = "1.21"
 
     commands {
         register("language") {
