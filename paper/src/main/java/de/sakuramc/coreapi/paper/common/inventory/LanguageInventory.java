@@ -1,6 +1,7 @@
 package de.sakuramc.coreapi.paper.common.inventory;
 
 import de.sakuramc.coreapi.api.CoreAPI;
+import de.sakuramc.coreapi.api.language.LanguageAPI;
 import de.sakuramc.coreapi.paper.CorePaperService;
 import de.sakuramc.coreapi.paper.player.inventory.InventoryCreator;
 import de.sakuramc.coreapi.paper.player.inventory.SakuraInventory;
@@ -48,15 +49,15 @@ public final class LanguageInventory implements SakuraInventory {
         final var slotAction = new SlotActionListener(this.inventory);
 
         slotAction.action(12, p -> {
-            CorePaperService.instance().languageAPI().setLanguage(p.getUniqueId(), Locale.GERMANY);
+            CorePaperService.instance().moduleHandler().module(LanguageAPI.class).setLanguage(p.getUniqueId(), Locale.GERMANY);
 
-            p.sendMessage(CoreAPI.instance().languageAPI().translate(p.getUniqueId(), "inventory.language.changed"));
+            p.sendMessage(CorePaperService.instance().moduleHandler().module(LanguageAPI.class).translate(p.getUniqueId(), "inventory.language.changed"));
         });
 
         slotAction.action(14, p -> {
-            CorePaperService.instance().languageAPI().setLanguage(p.getUniqueId(), Locale.ENGLISH);
+            CorePaperService.instance().moduleHandler().module(LanguageAPI.class).setLanguage(p.getUniqueId(), Locale.ENGLISH);
 
-            p.sendMessage(CoreAPI.instance().languageAPI().translate(p.getUniqueId(), "inventory.language.changed"));
+            p.sendMessage(CorePaperService.instance().moduleHandler().module(LanguageAPI.class).translate(p.getUniqueId(), "inventory.language.changed"));
         });
 
         Bukkit.getPluginManager().registerEvents(slotAction, CorePaperService.instance());

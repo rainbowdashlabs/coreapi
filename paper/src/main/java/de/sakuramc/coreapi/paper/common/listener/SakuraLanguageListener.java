@@ -1,5 +1,6 @@
 package de.sakuramc.coreapi.paper.common.listener;
 
+import de.sakuramc.coreapi.api.language.LanguageAPI;
 import de.sakuramc.coreapi.paper.CorePaperService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,6 @@ import java.util.Locale;
 public final class SakuraLanguageListener implements Listener {
     @EventHandler
     public void handle(@NotNull PlayerJoinEvent event) {
-        CorePaperService.instance().languageAPI().setLanguage(event.getPlayer().getUniqueId(), Locale.US);
+        CorePaperService.instance().moduleHandler().module(LanguageAPI.class).setLanguage(event.getPlayer().getUniqueId(), Locale.US);
     }
 }

@@ -2,6 +2,7 @@ package de.sakuramc.coreapi.paper;
 
 import de.sakuramc.coreapi.api.CoreAPI;
 import de.sakuramc.coreapi.api.language.LanguageAPI;
+import de.sakuramc.coreapi.api.modules.ModuleHandler;
 import de.sakuramc.coreapi.paper.common.commands.LanguageChangeCommand;
 import de.sakuramc.coreapi.paper.common.inventory.LanguageInventory;
 import de.sakuramc.coreapi.paper.common.listener.SakuraLanguageListener;
@@ -24,8 +25,7 @@ public class CorePaperService extends JavaPlugin {
     private static CorePaperService instance;
 
     private CoreAPI coreAPI;
-    private LanguageAPI languageAPI;
-
+    private ModuleHandler moduleHandler;
     private LanguageInventory languageInventory;
 
     @Override
@@ -36,7 +36,8 @@ public class CorePaperService extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.coreAPI = new CoreAPI();
-        this.languageAPI = new LanguageAPI("coreapi");
+        this.moduleHandler = new ModuleHandler();
+        this.moduleHandler.registerModule(LanguageAPI.class, () -> new LanguageAPI("coreapi"));
         this.languageInventory = new LanguageInventory();
 
         final var lifecycleEventManager = this.getLifecycleManager();

@@ -1,5 +1,6 @@
 package de.sakuramc.coreapi.paper.common.commands;
 
+import de.sakuramc.coreapi.api.language.LanguageAPI;
 import de.sakuramc.coreapi.paper.CorePaperService;
 import io.papermc.paper.command.brigadier.BasicCommand;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -17,7 +18,7 @@ public class LanguageChangeCommand implements BasicCommand {
     public void execute(CommandSourceStack commandSourceStack, String[] args) {
         final var player = (Player) commandSourceStack.getExecutor();
 
-        CorePaperService.instance().languageInventory().createInventory(player, 9*3, CorePaperService.instance().languageAPI().translate(player.getUniqueId(), "inventory.language.title"));
+        CorePaperService.instance().languageInventory().createInventory(player, 9*3, CorePaperService.instance().moduleHandler().module(LanguageAPI.class).translate(player.getUniqueId(), "inventory.language.title"));
         player.openInventory(CorePaperService.instance().languageInventory().inventory());
     }
 }

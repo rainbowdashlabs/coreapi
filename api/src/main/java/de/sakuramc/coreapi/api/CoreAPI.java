@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import de.chojo.sadu.datasource.DataSourceCreator;
 import de.chojo.sadu.postgresql.databases.PostgreSql;
 import de.sakuramc.coreapi.api.language.LanguageAPI;
+import de.sakuramc.coreapi.api.modules.ModuleHandler;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -21,7 +22,6 @@ public final class CoreAPI  {
     private static CoreAPI instance;
 
     private final HikariDataSource dataSource;
-    private final LanguageAPI languageAPI;
 
     public CoreAPI() {
         instance = this;
@@ -38,8 +38,6 @@ public final class CoreAPI  {
                 )
                 .create()
                 .build();
-
-        this.languageAPI = new LanguageAPI("coreapi");
     }
 
     public static void main(String[] args) {
