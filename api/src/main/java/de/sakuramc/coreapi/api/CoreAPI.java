@@ -41,4 +41,8 @@ public final class CoreAPI  {
 
         this.languageAPI = new LanguageAPI("coreapi");
     }
+
+    public static void main(String[] args) {
+        new CoreAPI();
+    }
 }

@@ -1,5 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id("java")
     id("maven-publish")
@@ -10,18 +8,20 @@ plugins {
 group = "de.sakuramc"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-
-    maven {
-        name = "papermc"
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
-}
-
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation(project(":api"))
+    implementation(libs.jetbrains.annotations)
+
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
+
+    bukkitLibrary(libs.sadu.postgresql)
+    bukkitLibrary(libs.sadu.queries)
+    bukkitLibrary(libs.sadu.datasource)
+
+    compileOnly(libs.adventure.text.minimessage)
+    compileOnly(libs.adventure.api)
+    compileOnly(libs.paper.api)
 }
 
 tasks.test {
@@ -44,14 +44,11 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
-tasks.withType<Jar> {
-    from(project(":api").sourceSets["main"].output)
-}
-
-
-tasks.named<ShadowJar>("shadowJar") {
-    archiveClassifier.set("")
-    mergeServiceFiles()
+tasks {
+    shadowJar {
+        archiveVersion.set("1.0.0")
+        archiveBaseName.set("paper-coreapi")
+    }
 }
 
 publishing {

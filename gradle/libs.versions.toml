@@ -1,0 +1,25 @@
+[versions]
+shadow = "8.3.5"
+pluginyml = "0.6.0"
+lombok = "1.18.36"
+jetbrains-annotations = "26.0.1"
+
+paper-api = "1.21.4-R0.1-SNAPSHOT"
+sadu = "2.2.2"
+adventure = "4.15.0"
+
+[libraries]
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper-api" }
+adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
+adventure-text-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
+
+sadu-queries = { group = "de.chojo.sadu", name = "sadu-queries", version.ref = "sadu" }
+sadu-datasource = { group = "de.chojo.sadu", name = "sadu-datasource", version.ref = "sadu" }
+sadu-postgresql = { group = "de.chojo.sadu", name = "sadu-postgresql", version.ref = "sadu" }
+
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+pluginyml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginyml"}
