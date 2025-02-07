@@ -36,7 +36,6 @@ publishing {
             // We still publish the non shaded jar. The api jar is the retrieved via dependency resolution.
             // For running the paper plugin use the "all" classified jar, which is additionally published for convenience
             from(components["java"])
-            artifact(tasks.shadowJar)
         }
     }
 }

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
+version = "1.0.0"
+
 dependencies{
     compileOnly(libs.velocity.api)
     implementation(project(":api"))
@@ -22,7 +24,6 @@ publishing {
             // We still publish the non shaded jar. The api jar is the retrieved via dependency resolution.
             // For running the paper plugin use the "all" classified jar, which is additionally published for convenience
             from(components["java"])
-            artifact(tasks.shadowJar)
         }
     }
 }
