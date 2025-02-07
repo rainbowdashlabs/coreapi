@@ -1,12 +1,12 @@
 plugins {
+    `java-library`
     alias(libs.plugins.shadow)
 }
-
-version = "1.0.0"
 
 dependencies{
     compileOnly(libs.velocity.api)
     implementation(project(":api"))
+    compileOnlyApi(project(":api"))
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)

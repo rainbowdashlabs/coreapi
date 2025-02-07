@@ -2,8 +2,6 @@ plugins {
     `java-library`
 }
 
-version = "1.0.0"
-
 dependencies {
     api(libs.bundles.sadu)
     api(libs.dbdriver.postgres)

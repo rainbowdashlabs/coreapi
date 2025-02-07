@@ -7,6 +7,7 @@ group = "de.sakuramc.core"
 version = "1.0.0"
 
 allprojects {
+    version = rootProject.version
     group = rootProject.group
     apply {
         plugin<JavaPlugin>()

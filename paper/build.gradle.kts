@@ -4,12 +4,11 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
-version = "1.0.0"
-
 dependencies {
     implementation(project(":api")) {
         exclude(group = "*", module = "*")
     }
+    compileOnlyApi(project(":api"))
     compileOnly(libs.jetbrains.annotations)
 
     compileOnly(libs.lombok)
