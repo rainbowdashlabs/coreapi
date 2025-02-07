@@ -1,9 +1,6 @@
 plugins {
-    id("java")
 }
 
-group = "de.sakuramc"
-
-tasks.test {
-    useJUnitPlatform()
+dependencies{
+    compileOnly(libs.velocity.api)
 }

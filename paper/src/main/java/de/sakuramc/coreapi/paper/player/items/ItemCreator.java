@@ -9,7 +9,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * A utility class for creating and customizing Bukkit items with a fluent API.
@@ -19,7 +23,8 @@ import java.util.*;
  * ItemStack item = new ItemCreator(Material.DIAMOND)
  *    .setName("Custom Item")
  *    .setLore("First line", "Second line")
- *    .build();
+ *    .build();}
+ * </pre>
  */
 public class ItemCreator {
     private final ItemStack itemStack;
@@ -72,7 +77,8 @@ public class ItemCreator {
             final SkullMeta im = (SkullMeta) this.itemStack.getItemMeta();
             im.setOwner(owner);
             this.itemStack.setItemMeta(im);
-        } catch (final ClassCastException ignored) {}
+        } catch (final ClassCastException ignored) {
+        }
         return this;
     }
 
