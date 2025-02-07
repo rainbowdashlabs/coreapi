@@ -8,6 +8,9 @@ paper-api = "1.21.4-R0.1-SNAPSHOT"
 sadu = "2.2.2"
 adventure = "4.15.0"
 
+velocity = "3.4.0-SNAPSHOT"
+postgres = "42.7.5"
+
 [libraries]
 paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper-api" }
 adventure-api = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
@@ -17,9 +20,16 @@ sadu-queries = { group = "de.chojo.sadu", name = "sadu-queries", version.ref = "
 sadu-datasource = { group = "de.chojo.sadu", name = "sadu-datasource", version.ref = "sadu" }
 sadu-postgresql = { group = "de.chojo.sadu", name = "sadu-postgresql", version.ref = "sadu" }
 
+dbdriver-postgres = { group = "org.postgresql", name = "postgresql", version.ref = "postgres" }
+
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
 
+velocity-api = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
-pluginyml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginyml"}
+pluginyml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginyml" }
+
+[bundles]
+sadu = ["sadu-queries", "sadu-datasource", "sadu-postgresql"]

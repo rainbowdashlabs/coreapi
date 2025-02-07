@@ -1,31 +1,43 @@
 plugins {
-    id("java")
-    id("maven-publish")
-    id("de.eldoria.plugin-yml.bukkit") version "0.6.0"
-    id("com.gradleup.shadow") version "8.3.5"
+    `java-library`
+    alias(libs.plugins.pluginyml)
+    alias(libs.plugins.shadow)
 }
 
-group = "de.sakuramc"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 dependencies {
-    implementation(project(":api"))
-    implementation(libs.jetbrains.annotations)
+    implementation(project(":api")) {
+        exclude(group = "*", module = "*")
+    }
+    compileOnly(libs.jetbrains.annotations)
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
-    bukkitLibrary(libs.sadu.postgresql)
-    bukkitLibrary(libs.sadu.queries)
-    bukkitLibrary(libs.sadu.datasource)
+    bukkitLibrary(libs.bundles.sadu)
+    bukkitLibrary(libs.dbdriver.postgres)
 
     compileOnly(libs.adventure.text.minimessage)
     compileOnly(libs.adventure.api)
     compileOnly(libs.paper.api)
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    build {
+        // Shadow jar will be run every time we build
+        dependsOn(shadowJar)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            // We still publish the non shaded jar. The api jar is the retrieved via dependency resolution.
+            // For running the paper plugin use the "all" classified jar, which is additionally published for convenience
+            from(components["java"])
+        }
+    }
 }
 
 bukkit {
@@ -36,39 +48,6 @@ bukkit {
     commands {
         register("language") {
             description = "Change the language"
-        }
-    }
-}
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-}
-
-tasks {
-    shadowJar {
-        archiveVersion.set("1.0.0")
-        archiveBaseName.set("paper-coreapi")
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "sakuraRepository"
-            url = uri("https://dev.sakuramc.de/releases")
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "de.sakuramc.coreapi"
-            artifactId = "paper"
-            version = "1.0.0"
-            from(components["java"])
         }
     }
 }

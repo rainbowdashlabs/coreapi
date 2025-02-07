@@ -1,16 +1,52 @@
 plugins {
-    `java-library`
-    alias(libs.plugins.shadow)
-    id("java")
-
+    java
     `maven-publish`
 }
 
-group = "de.sakuramc"
-version = "1.0-SNAPSHOT"
+group = "de.sakuramc.core"
+version = "1.0.0"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+allprojects {
+    group = rootProject.group
+    apply {
+        plugin<JavaPlugin>()
+    }
+
+    repositories {
+        mavenCentral()
+        maven("https://repo.papermc.io/repository/maven-public/")
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+        withJavadocJar()
+        withSourcesJar()
+    }
+}
+
+subprojects {
+    apply {
+        plugin<MavenPublishPlugin>()
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "sakuraRepository"
+                url = uri("https://dev.sakuramc.de/releases")
+                credentials(PasswordCredentials::class)
+                authentication {
+                    create<BasicAuthentication>("basic")
+                }
+            }
+        }
+    }
+
+    tasks {
+        test {
+            useJUnitPlatform()
+        }
     }
 }

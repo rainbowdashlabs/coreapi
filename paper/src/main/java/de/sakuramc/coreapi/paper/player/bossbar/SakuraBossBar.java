@@ -17,7 +17,8 @@ import org.jetbrains.annotations.NotNull;
  *    .progress(0.5f)
  *    .color(BossBar.Color.RED)
  *    .overlay(BossBar.Overlay.NOTCHED_10)
- *    .build();
+ *    .build();}
+ *    </pre>
  */
 @Getter
 @Accessors(fluent = true)
