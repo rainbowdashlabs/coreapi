@@ -23,6 +23,23 @@ dependencies {
     compileOnly(libs.paper.api)
 }
 
+tasks {
+    build {
+        // Shadow jar will be run every time we build
+        dependsOn(shadowJar)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            // We still publish the non shaded jar. The api jar is the retrieved via dependency resolution.
+            // For running the paper plugin use the "all" classified jar, which is additionally published for convenience
+            from(components["java"])
+            artifact(tasks.shadowJar)
+        }
+    }
+}
 
 bukkit {
     name = "paper-coreapi"
@@ -32,26 +49,6 @@ bukkit {
     commands {
         register("language") {
             description = "Change the language"
-        }
-    }
-}
-
-tasks {
-    build {
-        dependsOn(shadowJar)
-    }
-
-    shadowJar {
-        archiveClassifier.set("")
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            artifact(tasks.shadowJar)
-            artifact(tasks.javadocJar)
-            artifact(tasks.sourcesJar)
         }
     }
 }

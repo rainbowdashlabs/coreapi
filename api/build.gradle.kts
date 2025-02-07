@@ -6,8 +6,8 @@ version = "1.0.0"
 
 dependencies {
     api(libs.bundles.sadu)
-    compileOnlyApi(libs.jetbrains.annotations)
     api(libs.dbdriver.postgres)
+    compileOnlyApi(libs.jetbrains.annotations)
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
